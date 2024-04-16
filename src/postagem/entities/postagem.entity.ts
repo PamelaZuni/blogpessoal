@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'tb_postagem' })
+@Entity({ name: 'tb_postagens' })
 export class Postagem {
   @PrimaryGeneratedColumn() // define a Chave Primaria e auto_increment
   id: number;
