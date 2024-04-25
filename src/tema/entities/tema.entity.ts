@@ -19,4 +19,3 @@ export class Tema {
   @OneToMany(() => Postagem, (postagem) => postagem.tema)
   postagem: Postagem[]
 }
-
