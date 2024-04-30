@@ -8,14 +8,15 @@ import {
   HttpStatus,
   Param,
   Body,
-  HttpException,
   UseGuards,
   ParseIntPipe,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 import { PostagemService } from '../services/postagem.service';
 import { Postagem } from '../entities/postagem.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Postagem')
 @UseGuards(JwtAuthGuard)
 @Controller('/postagens')
 export class PostagemController {
