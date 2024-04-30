@@ -48,10 +48,8 @@ export class UsuarioService {
     let buscaUsuario = await this.findByUsuario(usuario.usuario);
 
     if (!buscaUsuario) {
+      if (!usuario.foto) usuario.foto = 'https://i.imgur.com/Sk5SjWE.jpg';
 
-      if (!usuario.foto)
-        usuario.foto = 'https://i.imgur.com/Sk5SjWE.jpg'
-      
       usuario.senha = await this.bcrypt.criptografarSenha(usuario.senha);
       return await this.usuarioRepository.save(usuario);
     }
@@ -60,8 +58,8 @@ export class UsuarioService {
   }
 
   async update(usuario: Usuario): Promise<Usuario> {
-    let updateUsuario: Usuario = await this.findById(usuario.id);
-    let buscaUsuario = await this.findByUsuario(usuario.usuario);
+    const updateUsuario: Usuario = await this.findById(usuario.id);
+    const buscaUsuario = await this.findByUsuario(usuario.usuario);
 
     if (!updateUsuario)
       throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
@@ -72,8 +70,7 @@ export class UsuarioService {
         HttpStatus.BAD_REQUEST,
       );
 
-      if (!usuario.foto)
-        usuario.foto = 'https://i.imgur.com/Sk5SjWE.jpg'
+    if (!usuario.foto) usuario.foto = 'https://i.imgur.com/Sk5SjWE.jpg';
 
     usuario.senha = await this.bcrypt.criptografarSenha(usuario.senha);
     return await this.usuarioRepository.save(usuario);

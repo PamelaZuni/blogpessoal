@@ -4,9 +4,7 @@ import * as request from 'supertest';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppModule } from '../src/app.module';
 
-
 describe('Testes dos Modulos Usuario e Auth (e2e)', () => {
-  
   let token: any;
   let usuarioId: any;
   let app: INestApplication;
@@ -17,86 +15,89 @@ describe('Testes dos Modulos Usuario e Auth (e2e)', () => {
         TypeOrmModule.forRoot({
           type: 'sqlite',
           database: 'db_blogpessoal_test.db',
-          entities: [__dirname + "./../src/**/entities/*.entity.ts"],
+          entities: [__dirname + './../src/**/entities/*.entity.ts'],
           synchronize: true,
           dropSchema: true,
         }),
-        AppModule],
+        AppModule,
+      ],
     }).compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
   });
 
-  afterAll(async () =>  {
+  afterAll(async () => {
     await app.close();
   });
 
-  it("01 - Cadastrar um novo Usuario", async () => {
+  it('01 - Cadastrar um novo Usuario', async () => {
     const resposta = await request(app.getHttpServer())
-    .post("/usuarios/cadastrar")
-    .send({
-      nome: 'Root',
-      usuario: 'root@root.com',
-      senha: "rootroot",
-      foto: '-'
-    })
-    expect(201)
-
-    usuarioId = resposta.body.id;
-
-  })
-
-    it("02 - Não Deve Cadastrar um Usuário Duplicado", async () => {
-      await request(app.getHttpServer())
-      .post("/usuarios/cadastrar")
+      .post('/usuarios/cadastrar')
       .send({
         nome: 'Root',
         usuario: 'root@root.com',
         senha: 'rootroot',
-        foto: ' ',
-      })
-      expect(400)
+        foto: '-',
+      });
+    expect(201);
 
-    })
+    usuarioId = resposta.body.id;
+  });
 
-    it("03 - Deve autenticar o Uusuario (Login)", async () => {
-    const resposta = await request(app.getHttpServer())
-    .post("/usuarios/logar")
-    .send({
+  it('02 - Não Deve Cadastrar um Usuário Duplicado', async () => {
+    await request(app.getHttpServer()).post('/usuarios/cadastrar').send({
+      nome: 'Root',
       usuario: 'root@root.com',
       senha: 'rootroot',
+      foto: ' ',
+    });
+    expect(400);
+  });
 
-    })
-    .expect(200)
+  it('03 - Deve autenticar o Uusuario (Login)', async () => {
+    const resposta = await request(app.getHttpServer())
+      .post('/usuarios/logar')
+      .send({
+        usuario: 'root@root.com',
+        senha: 'rootroot',
+      })
+      .expect(200);
 
     token = resposta.body.token;
 
-    console.log("Token: " + token);
-  }) 
+    console.log('Token: ' + token);
+  });
 
-  it("04 - Listar todos os Usuários", async () =>  {
+   it('04 - Listar todos os Usuários', async () => {
     return request(app.getHttpServer())
-    .get('/usuarios/all')
-    .set('Authorization', `${token}`)
-    .send({}) 
-    expect(200)
-  })
+      .get('/usuarios/all')
+      .set('Authorization', `${token}`)
+      .send({})
+      .expect(200);
+  });
 
-  it("05 - Atualizar um Usuário", async () =>  {
+  it('05 - Atualizar um Usuário', async () => {
     return request(app.getHttpServer())
-    .put('/usarios/atualizar')
-    .set('Authorization', `${token}`)
-    .send({
-      id: usuarioId,
-      nome: 'Karen',
-      usuario: 'root@root.com',
-      senha: 'karen123',
-      foto: ' ',
-    })
-     .expect(200)
-     .then( resposta => {
-     expect('Karen').toEqual(resposta.body.nome);
-    })
-  })
+      .put('/usuarios/atualizar')
+      .set('Authorization', `${token}`)
+      .send({
+        id: usuarioId,
+        nome: 'Karen',
+        usuario: 'root@root.com',
+        senha: 'karen123',
+        foto: '-',
+      })
+      .expect(200)
+      .then((resposta) => {
+        expect('Karen').toEqual(resposta.body.nome);
+      });
+  });
+
+  it('06 - Buscar Usuário por ID', async () => {
+    return request(app.getHttpServer())
+      .get(`/usuarios/${usuarioId}`)
+      .set('Authorization', `${token}`)
+      .expect(200);
+  });
 });

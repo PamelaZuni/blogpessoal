@@ -24,7 +24,7 @@ import { Postagem } from './postagem/entities/postagem.entity';
     PostagemModule,
     TemaModule,
     AuthModule,
-    UsuarioModule
+    UsuarioModule,
   ],
   controllers: [],
   providers: [],

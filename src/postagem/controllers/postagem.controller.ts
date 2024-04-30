@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Put, Delete, HttpCode, HttpStatus, Param, Body, HttpException, UseGuards, ParseIntPipe } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Body,
+  HttpException,
+  UseGuards,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 import { PostagemService } from '../services/postagem.service';
 import { Postagem } from '../entities/postagem.entity';
@@ -35,10 +48,10 @@ export class PostagemController {
   update(@Body() postagem: Postagem): Promise<Postagem> {
     return this.postagemService.update(postagem);
   }
-//check this on Insomnia
+  //check this on Insomnia
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT) // HTTP Status 200
-  delete(@Param('id', ParseIntPipe) id: number){
+  delete(@Param('id', ParseIntPipe) id: number) {
     return this.postagemService.delete(id);
   }
 }
