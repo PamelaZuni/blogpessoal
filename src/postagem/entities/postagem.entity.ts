@@ -15,7 +15,7 @@ export class Postagem {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => Tema })
   @IsNotEmpty()
   @Column({ length: 100, nullable: false })
   titulo: string;

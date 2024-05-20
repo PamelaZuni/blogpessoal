@@ -13,3 +13,4 @@ import { TemaService } from '../tema/services/tema.service';
   exports: [TypeOrmModule],
 })
 export class PostagemModule {}
+
