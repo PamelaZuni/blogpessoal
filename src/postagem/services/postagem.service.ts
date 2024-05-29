@@ -51,7 +51,7 @@ export class PostagemService {
     if (postagem.tema) {
       let tema = await this.temaService.findById(postagem.tema.id);
 
-      if (tema)
+      if (!tema)
         throw new HttpException(
           'Tema não foi encontrado!',
           HttpStatus.NOT_FOUND,
