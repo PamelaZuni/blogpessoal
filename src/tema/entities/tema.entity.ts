@@ -4,11 +4,6 @@ import { Postagem } from '../../postagem/entities/postagem.entity';
 import { ApiProperty } from '@nestjs/swagger';
 @Entity({ name: 'tb_temas' })
 export class Tema {
-  static id(id: any) {
-    throw new Error('Method not implemented.');
-  }
-  [x: string]: any;
-
   @PrimaryGeneratedColumn()
   @ApiProperty()
   id: number;
