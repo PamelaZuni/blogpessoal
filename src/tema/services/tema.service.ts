@@ -58,7 +58,7 @@ export class TemaService {
     return await this.temaRepository.save(tema);
   }
 
-  async delele(id: number): Promise<DeleteResult> {
+  async delete(id: number): Promise<DeleteResult> {
     let buscaTema = await this.findById(id);
 
     if (!buscaTema)
