@@ -1,4 +1,16 @@
-import {Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post,Put, UseGuards,} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { Tema } from '../entities/tema.entity';
 import { TemaService } from '../services/tema.service';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
@@ -44,6 +56,6 @@ export class TemaController {
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   delete(@Param('id', ParseIntPipe) id: number) {
-    return this.temaService.delele(id);
+    return this.temaService.delete(id);
   }
 }
